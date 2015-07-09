@@ -1,9 +1,29 @@
-<% @posts.each do |post| %>
-    <%= link_to image_tag post.image.url(:small) %>
-    <h2><%= link_to post.title, post %></h2>
-    <p><%= post.comments.count %> Comments</p>
-    <p><%= post.get_likes.size %> Likes</p>
-    <p><%= post.get_dislikes.size %> Dislikes</p>
-<% end %>
+<% if user_signed_in? %>
+    <p id="intro">Hello <%= current_user.name %><br />
+     <span>Share your inspiration and see what's inspiring others.</span>
+    </p>
+    <% else %>
+    <p id="intro">What's your Muse?<br />
+     <span>Share your inspiration and see what's inspiring others.</span>
+    </p>
+    <% end %>
 
-<%= link_to "Add New Inspiration", new_post_path %>
+<div id="posts">
+    <% @posts.each do |post| %>
+      <div class="post_image">
+        <%= link_to image_tag post.image.url(:small) %>
+      </div>
+      <div class="post_content">
+        <h2 class="title"><%= link_to post.title, post %></h2>
+        <div class="data clearfix">
+          <p class="username">Shared by <%= post.user.name %></p>
+          <p class="buttons"><span><i class="fa fa-comments-o"></i> <%= post.comments.count %> Comments</span></p>
+          <p class="buttons"><span><i class="fa fa-thumbs-o-up"></i> <%= post.get_likes.size %> Likes</span></p>
+            <!--<p><%= post.get_likes.size %> Likes</p>-->
+            <p><%= post.get_dislikes.size %> Dislikes</p>
+        </div>
+    <% end %>
+
+</div>
+
+    <%= link_to "Add New Inspiration", new_post_path %>
